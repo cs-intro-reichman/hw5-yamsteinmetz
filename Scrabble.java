@@ -64,20 +64,19 @@ public class Scrabble {
 	
 		for (int i = 0; i < word.length(); i++) {
 			char letter = word.charAt(i);
-			score += SCRABBLE_LETTER_VALUES[letter - 'a']; 
+			score += SCRABBLE_LETTER_VALUES[letter - 'a'];  
 		}
-	
+		
 		if (word.length() == HAND_SIZE) {
-			score += 50;
+			score += 50; 
 		}
 		
 		if (word.contains("runi")) {
-			score += 1000;
+			score += 1000;  
 		}
-	
-		return score; 
+		
+		return score;
 	}
-
 	// Creates a random hand of length (HAND_SIZE - 2) and then inserts
 	// into it, at random indexes, the letters 'a' and 'e'
 	// (these two vowels make it easier for the user to construct words)
@@ -105,36 +104,36 @@ public class Scrabble {
 		int score = 0;
 
 		// Declares the variable in to refer to an object of type In, and initializes it to represent
-		// the stream of characters coming from the keyboard. Used for reading the user's inputs. 
-		String[] simulatedInputs = {"train", ".", ""}; 
-		int inputIndex = 0;  
-		In in = new In();
+		// the stream of characters coming from the keyboard. Used for reading the user's inputs.
 		if (hand == null || hand.isEmpty()) {
 			System.out.println("Hand is empty. Cannot play.");
 			return;
 		}
+	 
+
 		while (hand.length() > 0) {
 			System.out.println("Current Hand: " + MyString.spacedString(hand));
 			System.out.println("Enter a word, or '.' to finish playing this hand:");
 			// Reads the next "token" from the keyboard. A token is defined as a string of 
 			// non-whitespace characters. Whitespace is either space characters, or  
 			// end-of-line characters.
-			String input = simulatedInputs[inputIndex++];
+			String input = in.readString(); 
 			System.out.println(input); 
 			// Check for invalid input
 			if (input.equals(".")) {
-                break;
-            }
+				break;
+			}	
 			// Handle case where the user finishes the hand
 			if (isWordInDictionary(input)) {
-                int wordScore = wordScore(input);
-                score += wordScore;
-                System.out.println(input + " earned " + wordScore + " points. Score: " + score + " points");
-                hand = removeLettersFromHand(hand, input); 
-            } else {
-                System.out.println("Invalid word. Try again.");
-            }
-        }
+				int wordScore = wordScore(input);
+				score += wordScore;
+				System.out.println(input + " earned " + wordScore + " points. Score: " + score + " points");
+
+				hand = removeLettersFromHand(hand, input);
+			} else {
+				System.out.println("Invalid word. Try again.");
+			}
+		}
 			System.out.println("End of hand. Total score: " + score + " points");
 		}
 		public static String removeLettersFromHand(String hand, String word) {
