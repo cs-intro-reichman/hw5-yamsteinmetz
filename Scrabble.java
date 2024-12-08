@@ -106,10 +106,10 @@ public class Scrabble {
 // 2. The user gets the Scrabble points of the entered word.
 // 3. The user is prompted to enter another word, or '.' to end the hand.
 public static void playHand(String hand) {
-    In in = new In();  
+    In in = new In();
     int score = 0;
     String[] playedWords = new String[100]; 
-    int playedWordsCount = 0;
+    int playedWordsCount = 0; 
 
     if (hand == null || hand.isEmpty()) {
         System.out.println("Hand is empty. Cannot play.");
@@ -117,16 +117,17 @@ public static void playHand(String hand) {
     }
 
     while (hand.length() > 0) {
-        System.out.println("Current Hand: " + hand);
+        System.out.println("Current Hand: " + formatHand(hand));
         System.out.println("Enter a word, or '.' to finish playing this hand:");
-        String input = in.readString();  
+        String input = in.readString();
 
         if (input.equals(".")) {
-            break;
+            break; 
         }
 
         if (isWordInDictionary(input) && canFormWordFromHand(hand, input)) {
             boolean alreadyPlayed = false;
+
             for (int i = 0; i < playedWordsCount; i++) {
                 if (playedWords[i].equals(input)) {
                     alreadyPlayed = true;
@@ -138,6 +139,7 @@ public static void playHand(String hand) {
                 System.out.println("This word has already been played. Try again.");
                 continue;
             }
+
             playedWords[playedWordsCount++] = input;
 
             int wordScore = wordScore(input);
@@ -152,6 +154,10 @@ public static void playHand(String hand) {
 
     System.out.println("End of hand. Total score: " + score + " points");
 }
+public static String formatHand(String hand) {
+    return hand.replace("", " ").trim(); 
+}
+
 
 public static boolean canFormWordFromHand(String hand, String word) {
     String tempHand = hand;
@@ -176,30 +182,30 @@ public static String removeLettersFromHand(String hand, String word) {
     // Plays a Scrabble game. Prompts the user to enter 'n' for playing a new hand, or 'e'
     // to end the game. If the user enters any other input, writes an error message.
 	public static void playGame() {
-		// Initializes the dictionary
-		init();
-		
-		In in = new In();
-		String currentHand = "";
-	
-		System.out.println("Loading word list from file...");
-		System.out.println("83667 words loaded.");
-		
-		while (true) {
-			System.out.println("Enter n to deal a new hand, or e to end the game:");
-			String input = in.readString();
-	
-			if (input.equals("n")) {
-				currentHand = createHand(); 
-				playHand(currentHand);      
-			} else if (input.equals("e")) {
-				System.out.println("Goodbye! Thanks for playing.");
-				break; 
-			} else {
-				System.out.println("Invalid input. Please enter 'n' or 'e'.");
-			}
-		}
-	}
+        init();
+    
+        In in = new In();
+        String currentHand = "";
+    
+        System.out.println("Loading word list from file...");
+        System.out.println("83667 words loaded.");
+    
+        while (true) {
+            System.out.println("Enter n to deal a new hand, or e to end the game:");
+            String input = in.readString();
+    
+            if (input.equals("n")) {
+                currentHand = createHand();
+                playHand(currentHand);
+            } else if (input.equals("e")) {
+                System.out.println("Goodbye! Thanks for playing.");
+                break;
+            } else {
+                System.out.println("Invalid input. Please enter 'n' or 'e'.");
+            }
+        }
+    }
+    
 	
     public static void main(String[] args) {
         // Uncomment the test you want to run
