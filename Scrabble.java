@@ -154,10 +154,10 @@ public static void playHand(String hand) {
 
     System.out.println("End of hand. Total score: " + score + " points");
 }
+
 public static String formatHand(String hand) {
     return hand.replace("", " ").trim(); 
 }
-
 
 public static boolean canFormWordFromHand(String hand, String word) {
     String tempHand = hand;
@@ -178,35 +178,31 @@ public static String removeLettersFromHand(String hand, String word) {
     return hand; 
 }
 
+public static void playGame() {
+    init();
 
-    // Plays a Scrabble game. Prompts the user to enter 'n' for playing a new hand, or 'e'
-    // to end the game. If the user enters any other input, writes an error message.
-	public static void playGame() {
-        init();
-    
-        In in = new In();
-        String currentHand = "";
-    
-        System.out.println("Loading word list from file...");
-        System.out.println("83667 words loaded.");
-    
-        while (true) {
-            System.out.println("Enter n to deal a new hand, or e to end the game:");
-            String input = in.readString();
-    
-            if (input.equals("n")) {
-                currentHand = createHand();
-                playHand(currentHand);
-            } else if (input.equals("e")) {
-                System.out.println("Goodbye! Thanks for playing.");
-                break;
-            } else {
-                System.out.println("Invalid input. Please enter 'n' or 'e'.");
-            }
+    In in = new In();
+    String currentHand = "";
+
+    System.out.println("Loading word list from file...");
+    System.out.println("83667 words loaded.");
+
+    while (true) {
+        System.out.println("Enter n to deal a new hand, or e to end the game:");
+        String input = in.readString();
+
+        if (input.equals("n")) {
+            currentHand = createHand();
+            playHand(currentHand);
+        } else if (input.equals("e")) {
+            System.out.println("Goodbye! Thanks for playing.");
+            break;
+        } else {
+            System.out.println("Invalid input. Please enter 'n' or 'e'.");
         }
     }
-    
-	
+}
+
     public static void main(String[] args) {
         // Uncomment the test you want to run
         // testBuildingTheDictionary();  
