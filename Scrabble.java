@@ -98,47 +98,59 @@ public class Scrabble {
     // 1. The letters in the word are removed from the hand, which becomes smaller.
     // 2. The user gets the Scrabble points of the entered word.
     // 3. The user is prompted to enter another word, or '.' to end the hand.
-    public static void playHand(String hand) {
-        In in = new In();  
-        int score = 0;
+    // Runs a single hand in a Scrabble game. Each time the user enters a valid word:
+// 1. The letters in the word are removed from the hand, which becomes smaller.
+// 2. The user gets the Scrabble points of the entered word.
+// 3. The user is prompted to enter another word, or '.' to end the hand.
+public static void playHand(String hand) {
+    In in = new In();  
+    int score = 0;
+    
+    // מערך למעקב אחרי מילים ששוחקו
+    String[] playedWords = new String[100];
+    int playedWordsCount = 0;
 
-        if (hand == null || hand.isEmpty()) {
-            System.out.println("Hand is empty. Cannot play.");
-            return;
-        }
-
-        // Use a set to track played words
-        HashSet<String> playedWords = new HashSet<>();
-
-        while (hand.length() > 0) {
-            System.out.println("Current Hand: " + hand);
-            System.out.println("Enter a word, or '.' to finish playing this hand:");
-            String input = in.readString();  
-
-            if (input.equals(".")) {
-                break;
-            }
-
-            if (isWordInDictionary(input) && canFormWordFromHand(hand, input)) {
-                if (playedWords.contains(input)) {
-                    System.out.println("This word has already been played. Try again.");
-                    continue;
-                }
-
-                int wordScore = wordScore(input);
-                score += wordScore;
-                playedWords.add(input);
-
-                System.out.println(input + " earned " + wordScore + " points. Total score: " + score + " points");
-
-                hand = removeLettersFromHand(hand, input);
-            } else {
-                System.out.println("Invalid word. Try again.");
-            }
-        }
-
-        System.out.println("End of hand. Total score: " + score + " points");
+    if (hand == null || hand.isEmpty()) {
+        System.out.println("Hand is empty. Cannot play.");
+        return;
     }
+
+    while (hand.length() > 0) {
+        System.out.println("Current Hand: " + hand);
+        System.out.println("Enter a word, or '.' to finish playing this hand:");
+        String input = in.readString();  
+
+        if (input.equals(".")) {
+            break;
+        }
+
+        if (isWordInDictionary(input) && canFormWordFromHand(hand, input)) {
+            boolean alreadyPlayed = false;
+            for (int i = 0; i < playedWordsCount; i++) {
+                if (playedWords[i].equals(input)) {
+                    alreadyPlayed = true;
+                    break;
+                }
+            }
+
+            if (alreadyPlayed) {
+                System.out.println("This word has already been played. Try again.");
+                continue;
+            }
+            playedWords[playedWordsCount++] = input;
+
+            int wordScore = wordScore(input);
+            score += wordScore;
+            System.out.println(input + " earned " + wordScore + " points. Total score: " + score + " points");
+
+            hand = removeLettersFromHand(hand, input);
+        } else {
+            System.out.println("Invalid word. Try again.");
+        }
+    }
+
+    System.out.println("End of hand. Total score: " + score + " points");
+}
 
     public static boolean canFormWordFromHand(String hand, String word) {
         String tempHand = hand;
