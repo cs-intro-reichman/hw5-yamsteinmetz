@@ -99,43 +99,74 @@ public class Scrabble {
     // 1. The letters in the word are removed from the hand, which becomes smaller.
     // 2. The user gets the Scrabble points of the entered word.
     // 3. The user is prompted to enter another word, or '.' to end the hand. 
-	public static void playHand(String hand) {
-		int n = hand.length();
-		int score = 0;
+	// public static void playHand(String hand) {
+	// 	In in = new In();  
+    //     int n = hand.length();
+    //     int score = 0;
 
-		// Declares the variable in to refer to an object of type In, and initializes it to represent
-		// the stream of characters coming from the keyboard. Used for reading the user's inputs.
+	// 	// Declares the variable in to refer to an object of type In, and initializes it to represent
+	// 	// the stream of characters coming from the keyboard. Used for reading the user's inputs.
+	// 	if (hand == null || hand.isEmpty()) {
+	// 		System.out.println("Hand is empty. Cannot play.");
+	// 		return;
+	// 	}
+	 
+
+	// 	while (hand.length() > 0) {
+	// 		System.out.println("Current Hand: " + MyString.spacedString(hand));
+	// 		System.out.println("Enter a word, or '.' to finish playing this hand:");
+	// 		String input = in.readString(); 
+	// 		// Reads the next "token" from the keyboard. A token is defined as a string of 
+	// 		// non-whitespace characters. Whitespace is either space characters, or  
+	// 		// end-of-line characters.
+	// 		if (input.equals(".")) {
+    //             break;
+    //         } 
+            
+    //         if (isWordInDictionary(input)) {
+    //             int wordScore = wordScore(input);
+    //             score += wordScore;
+    //             System.out.println(input + " earned " + wordScore + " points. Score: " + score + " points");
+
+    //             hand = removeLettersFromHand(hand, input);
+    //         } else {
+    //             System.out.println("Invalid word. Try again.");
+    //         }
+    //     }
+    //     System.out.println("End of hand. Total score: " + score + " points");
+    // }
+	public static void playHand(String hand) {
+		In in = new In();  
+		int score = 0;
+	
 		if (hand == null || hand.isEmpty()) {
 			System.out.println("Hand is empty. Cannot play.");
 			return;
 		}
-	 
-
+	
 		while (hand.length() > 0) {
 			System.out.println("Current Hand: " + MyString.spacedString(hand));
 			System.out.println("Enter a word, or '.' to finish playing this hand:");
-			// Reads the next "token" from the keyboard. A token is defined as a string of 
-			// non-whitespace characters. Whitespace is either space characters, or  
-			// end-of-line characters.
-			String input = in.readString(); 
-			System.out.println(input); 
-			// Check for invalid input
+			String input = in.readString();  // קריאת מילה מקלט המשתמש
+	
 			if (input.equals(".")) {
 				break;
-			}	
-			// Handle case where the user finishes the hand
+			}
+	
 			if (isWordInDictionary(input)) {
 				int wordScore = wordScore(input);
 				score += wordScore;
-				System.out.println(input + " earned " + wordScore + " points. Score: " + score + " points");
-
+				System.out.println(input + " earned " + wordScore + " points. Total score: " + score + " points");
+	
 				hand = removeLettersFromHand(hand, input);
 			} else {
 				System.out.println("Invalid word. Try again.");
 			}
 		}
-			System.out.println("End of hand. Total score: " + score + " points");
-		}
+	
+		System.out.println("End of hand. Total score: " + score + " points");
+	}
+
 		public static String removeLettersFromHand(String hand, String word) {
 			for (char letter : word.toCharArray()) {
 				hand = hand.replaceFirst(String.valueOf(letter), ""); 
