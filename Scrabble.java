@@ -66,9 +66,8 @@ public class Scrabble {
 			score += 50; 
 		}
 		
-		// Add 1000 points if the word contains "runi"
-		if (word.indexOf("runi") != -1) { // Changed to indexOf for better check
-			score += 1000;  
+		if (word.indexOf('r') != -1 && word.indexOf('u') != -1 && word.indexOf('n') != -1 && word.indexOf('i') != -1) {
+			score += 1000;
 		}
 		if (score > 0) {  // Only multiply if there's a valid score
         score *= word.length();
