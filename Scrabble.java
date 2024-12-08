@@ -144,7 +144,7 @@ public static void playHand(String hand) {
 
             int wordScore = wordScore(input);
             score += wordScore;
-            System.out.println(input + " earned " + wordScore + " points. Total score: " + score + " points");
+            System.out.println(input + " earned " + wordScore + " points. Score: " + score + " points");
 
             hand = removeLettersFromHand(hand, input);
         } else {
