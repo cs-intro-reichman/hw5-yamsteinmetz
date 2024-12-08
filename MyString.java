@@ -51,14 +51,19 @@ public class MyString {
     public static boolean subsetOf(String str1, String str2) {
         for (int i = 0; i < str1.length(); i++) {
             char currentChar = str1.charAt(i);
-           
-            if (countChar(str2, currentChar) == 0) {
+            
+            int countInStr2 = countChar(str2, currentChar);
+            
+            if (countInStr2 == 0) {
                 return false;
             }
+            
+            str2 = str2.replaceFirst(String.valueOf(currentChar), "");
         }
+        
         return true;
     }
-       
+    
 
     /** Returns a string which is the same as the given string, with a space
      * character inserted after each character in the given string, except
@@ -69,16 +74,21 @@ public class MyString {
      * @return a string consisting of the characters of str, separated by spaces.
      */
     public static String spacedString(String str) {
-        String result = ""; 
-    
-        for (int i = 0; i < str.length() - 1; i++) {
-            result += str.charAt(i); 
-            result += " "; 
+        if (str.isEmpty()) {
+            return str;
         }
     
-            result += str.charAt(str.length() - 1);
-            return result; 
+        String result = "";
+    
+        for (int i = 0; i < str.length() - 1; i++) {
+            result += str.charAt(i);
+            result += " ";
+        }
+    
+        result += str.charAt(str.length() - 1);
+        return result;
     }
+    
 
 
     /**
