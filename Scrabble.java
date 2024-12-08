@@ -60,21 +60,21 @@ public class Scrabble {
 	// If the length of the word equals the length of the hand, adds 50 points to the score.
 	// If the word includes the sequence "runi", adds 1000 points to the game.
 	public static int wordScore(String word) {
-		int score = 0; 
+		int score = 0;
 	
 		for (int i = 0; i < word.length(); i++) {
 			char letter = word.charAt(i);
 			score += SCRABBLE_LETTER_VALUES[letter - 'a'];  
 		}
-		
+	
 		if (word.length() == HAND_SIZE) {
 			score += 50; 
 		}
-		
+
 		if (word.contains("runi")) {
 			score += 1000;  
 		}
-		
+	
 		return score;
 	}
 	// Creates a random hand of length (HAND_SIZE - 2) and then inserts
@@ -147,13 +147,13 @@ public class Scrabble {
 		while (hand.length() > 0) {
 			System.out.println("Current Hand: " + MyString.spacedString(hand));
 			System.out.println("Enter a word, or '.' to finish playing this hand:");
-			String input = in.readString();  // קריאת מילה מקלט המשתמש
+			String input = in.readString();  
 	
 			if (input.equals(".")) {
 				break;
 			}
 	
-			if (isWordInDictionary(input)) {
+			if (isWordInDictionary(input) && canFormWordFromHand(hand, input)) {
 				int wordScore = wordScore(input);
 				score += wordScore;
 				System.out.println(input + " earned " + wordScore + " points. Total score: " + score + " points");
@@ -166,41 +166,53 @@ public class Scrabble {
 	
 		System.out.println("End of hand. Total score: " + score + " points");
 	}
-
-		public static String removeLettersFromHand(String hand, String word) {
-			for (char letter : word.toCharArray()) {
-				hand = hand.replaceFirst(String.valueOf(letter), ""); 
+	public static boolean canFormWordFromHand(String hand, String word) {
+		String tempHand = hand;
+		for (char letter : word.toCharArray()) {
+			int index = tempHand.indexOf(letter);
+			if (index == -1) {
+				return false;  // אם לא ניתן למצוא את האות, לא ניתן ליצור את המילה
 			}
-			return hand; 
+			tempHand = tempHand.substring(0, index) + tempHand.substring(index + 1);  // הסרת האות מהיד
 		}
-
+		return true;  
+	}
+	public static String removeLettersFromHand(String hand, String word) {
+		for (char letter : word.toCharArray()) {
+			hand = hand.replaceFirst(String.valueOf(letter), "");  
+		}
+		return hand; 
+	}
+	
+	
 	// Plays a Scrabble game. Prompts the user to enter 'n' for playing a new hand, or 'e'
 	// to end the game. If the user enters any other input, writes an error message.
 	public static void playGame() {
 		// Initializes the dictionary
-    	init();
-		// The variable in is set to represent the stream of characters 
-		// coming from the keyboard. Used for getting the user's inputs.  
+		init();
+		
+		// The variable 'in' is set to represent the stream of characters coming from the keyboard
+		// Used for getting the user's inputs.
 		In in = new In();
 		String currentHand = "";
-
-		while(true) {
+	
+		while (true) {
 			System.out.println("Enter n to deal a new hand, or e to end the game:");
 			String input = in.readString();
-			// Gets the user's input, which is all the characters entered by 
-			// the user until the user enter the ENTER character.
+			
+			// Gets the user's input, which is all the characters entered by the user
+			// until the user enters the ENTER key.
 			if (input.equals("n")) {
 				currentHand = createHand(); 
 				playHand(currentHand);      
 			} else if (input.equals("e")) {
 				System.out.println("Goodbye! Thanks for playing.");
-				break; 
+				break; // Exit the loop and end the game
 			} else {
 				System.out.println("Invalid input. Please enter 'n' or 'e'.");
 			}
 		}
-	}
-	public static void main(String[] args) {
+	}	public static void main(String[] args) {
 		// Uncomment the test you want to run
 		testBuildingTheDictionary();  
 		testScrabbleScore();    
