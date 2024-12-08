@@ -153,6 +153,8 @@ public static void playHand(String hand) {
     }
 
     System.out.println("End of hand. Total score: " + score + " points");
+    System.out.println();
+    System.out.println();
 }
 
 public static String formatHand(String hand) {
@@ -179,7 +181,7 @@ public static String removeLettersFromHand(String hand, String word) {
 }
 
 public static void playGame() {
-    init();
+    // init(); // הסר קריאה זו אם init() כבר טוען את המילים
 
     In in = new In();
     String currentHand = "";
@@ -202,7 +204,6 @@ public static void playGame() {
         }
     }
 }
-
     public static void main(String[] args) {
         // Uncomment the test you want to run
         // testBuildingTheDictionary();  
