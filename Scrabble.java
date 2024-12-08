@@ -50,27 +50,24 @@ public class Scrabble {
     // Returns the Scrabble score of the given word.
     // If the length of the word equals the length of the hand, adds 50 points to the score.
     // If the word includes the sequence "runi", adds 1000 points to the game.
-    public static int wordScore(String word) {
-        int score = 0;
-    
-        // חישוב הניקוד של המילה
-        for (int i = 0; i < word.length(); i++) {
-            char letter = word.charAt(i);
-            score += SCRABBLE_LETTER_VALUES[letter - 'a'];  
-        }
-    
-        // אם המילה באורך של היד, מוסיפים 50 נקודות
-        if (word.length() == HAND_SIZE) {
-            score += 50; 
-        }
+	public static int wordScore(String word) {
+		int score = 0;
 
-        // אם המילה כוללת את המילה "runi", מוסיפים 1000 נקודות
-        if (word.contains("runi")) {
-            score += 1000;  
-        }
-    
-        return score;
-    }
+		for (int i = 0; i < word.length(); i++) {
+			char letter = Character.toLowerCase(word.charAt(i));  
+			score += SCRABBLE_LETTER_VALUES[letter - 'a'];  
+		}
+		
+		if (word.length() == HAND_SIZE) {
+			score += 50; 
+		}
+		if (word.contains("runi")) {
+			score += 1000;  
+		}
+	
+		return score;
+	}
+	
 
     // Creates a random hand of length (HAND_SIZE - 2) and then inserts
     // into it, at random indexes, the letters 'a' and 'e'
