@@ -50,24 +50,27 @@ public class Scrabble {
     // Returns the Scrabble score of the given word.
     // If the length of the word equals the length of the hand, adds 50 points to the score.
     // If the word includes the sequence "runi", adds 1000 points to the game.
-	public static int wordScore(String word) {
-		int score = 0;
+    public static int wordScore(String word) {
+        int score = 0;
 
-		for (int i = 0; i < word.length(); i++) {
-			char letter = Character.toLowerCase(word.charAt(i));  
-			score += SCRABBLE_LETTER_VALUES[letter - 'a'];  
-		}
-		
-		if (word.length() == HAND_SIZE) {
-			score += 50; 
-		}
-		if (word.contains("runi")) {
-			score += 1000;  
-		}
-	
-		return score;
-	}
-	
+        // Calculate the score for each letter
+        for (int i = 0; i < word.length(); i++) {
+            char letter = Character.toLowerCase(word.charAt(i));  
+            score += SCRABBLE_LETTER_VALUES[letter - 'a'];  
+        }
+        
+        // Add 50 points if the word length matches HAND_SIZE
+        if (word.length() == HAND_SIZE) {
+            score += 50; 
+        }
+        
+        // Add 1000 points if the word contains "runi"
+        if (word.contains("runi")) {
+            score += 1000;  
+        }
+
+        return score;
+    }
 
     // Creates a random hand of length (HAND_SIZE - 2) and then inserts
     // into it, at random indexes, the letters 'a' and 'e'
@@ -80,6 +83,7 @@ public class Scrabble {
             int randomIndex = (int) (Math.random() * availableLetters.length());
             hand += availableLetters.charAt(randomIndex);
         }
+        // Insert 'a' and 'e' at random positions
         for (char letter : new char[]{'a', 'e'}) {
             int randomIndex = (int) (Math.random() * (hand.length() + 1));
             hand = hand.substring(0, randomIndex) + letter + hand.substring(randomIndex);
@@ -123,6 +127,7 @@ public class Scrabble {
 
         System.out.println("End of hand. Total score: " + score + " points");
     }
+
     public static boolean canFormWordFromHand(String hand, String word) {
         String tempHand = hand;
         for (char letter : word.toCharArray()) {
@@ -169,11 +174,11 @@ public class Scrabble {
 
     public static void main(String[] args) {
         // Uncomment the test you want to run
-        testBuildingTheDictionary();  
-        testScrabbleScore();    
-        testCreateHands();  
-        testPlayHands();
-        playGame();
+        // testBuildingTheDictionary();  
+        // testScrabbleScore();    
+        // testCreateHands();  
+        // testPlayHands();
+        // playGame();
     }
 
     public static void testBuildingTheDictionary() {
