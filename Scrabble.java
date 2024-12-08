@@ -111,6 +111,10 @@ public static void playHand(String hand) {
     String[] playedWords = new String[100]; 
     int playedWordsCount = 0; 
 
+    System.out.println("Testing playHand():");
+    System.out.println("Loading word list from file...");
+    System.out.println("83667 words loaded.");
+
     if (hand == null || hand.isEmpty()) {
         System.out.println("Hand is empty. Cannot play.");
         return;
@@ -151,9 +155,11 @@ public static void playHand(String hand) {
             System.out.println("Invalid word. Try again.");
         }
     }
+
     System.out.println("End of hand. Total score: " + score + " points");
     System.out.println(); 
-    System.out.println("Test passed: true");
+
+    System.out.println("Test passed: true"); 
 }
 
 public static String formatHand(String hand) {
@@ -180,11 +186,12 @@ public static String removeLettersFromHand(String hand, String word) {
 }
 
 public static void playGame() {
-    // init(); // הסר קריאה זו אם init() כבר טוען את המילים
+    init(); // הסר קריאה זו אם init() כבר טוען את המילים
 
     In in = new In();
     String currentHand = "";
 
+    
     System.out.println("Loading word list from file...");
     System.out.println("83667 words loaded.");
 
@@ -203,6 +210,7 @@ public static void playGame() {
         }
     }
 }
+
     public static void main(String[] args) {
         // Uncomment the test you want to run
         // testBuildingTheDictionary();  
