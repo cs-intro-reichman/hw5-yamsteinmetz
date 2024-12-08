@@ -70,10 +70,12 @@ public class Scrabble {
 		if (word.indexOf("runi") != -1) { // Changed to indexOf for better check
 			score += 1000;  
 		}
-		score *= word.length();
-	
-		return score;
-	}
+		if (score > 0) {  // Only multiply if there's a valid score
+        score *= word.length();
+    }
+
+    return score;
+}
 	
     // Creates a random hand of length (HAND_SIZE - 2) and then inserts
     // into it, at random indexes, the letters 'a' and 'e'
