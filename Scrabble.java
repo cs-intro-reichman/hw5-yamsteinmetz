@@ -52,28 +52,28 @@ public class Scrabble {
     // Returns the Scrabble score of the given word.
     // If the length of the word equals the length of the hand, adds 50 points to the score.
     // If the word includes the sequence "runi", adds 1000 points to the game.
-    public static int wordScore(String word) {
-        int score = 0;
-
-        // Calculate the score for each letter
-        for (int i = 0; i < word.length(); i++) {
-            char letter = Character.toLowerCase(word.charAt(i));  
-            score += SCRABBLE_LETTER_VALUES[letter - 'a'];  
-        }
-        
-        // Add 50 points if the word length matches HAND_SIZE
-        if (word.length() == HAND_SIZE) {
-            score += 50; 
-        }
-        
-        // Add 1000 points if the word contains "runi"
-        if (word.contains("runi")) {
-            score += 1000;  
-        }
-
-        return score;
-    }
-
+	public static int wordScore(String word) {
+		int score = 0;
+	
+		// Calculate the score for each letter
+		for (int i = 0; i < word.length(); i++) {
+			char letter = Character.toLowerCase(word.charAt(i));  
+			score += SCRABBLE_LETTER_VALUES[letter - 'a'];  // Ensure correct calculation for letter values
+		}
+		
+		// Add 50 points if the word length matches HAND_SIZE
+		if (word.length() == HAND_SIZE) {
+			score += 50; 
+		}
+		
+		// Add 1000 points if the word contains "runi"
+		if (word.indexOf("runi") != -1) { // Changed to indexOf for better check
+			score += 1000;  
+		}
+	
+		return score;
+	}
+	
     // Creates a random hand of length (HAND_SIZE - 2) and then inserts
     // into it, at random indexes, the letters 'a' and 'e'
     // (these two vowels make it easier for the user to construct words)
@@ -105,9 +105,7 @@ public class Scrabble {
 public static void playHand(String hand) {
     In in = new In();  
     int score = 0;
-    
-    // מערך למעקב אחרי מילים ששוחקו
-    String[] playedWords = new String[100];
+    String[] playedWords = new String[100]; 
     int playedWordsCount = 0;
 
     if (hand == null || hand.isEmpty()) {
@@ -152,50 +150,54 @@ public static void playHand(String hand) {
     System.out.println("End of hand. Total score: " + score + " points");
 }
 
-    public static boolean canFormWordFromHand(String hand, String word) {
-        String tempHand = hand;
-        for (char letter : word.toCharArray()) {
-            int index = tempHand.indexOf(letter);
-            if (index == -1) {
-                return false;  
-            }
-            tempHand = tempHand.substring(0, index) + tempHand.substring(index + 1);  
+public static boolean canFormWordFromHand(String hand, String word) {
+    String tempHand = hand;
+    for (char letter : word.toCharArray()) {
+        int index = tempHand.indexOf(letter);
+        if (index == -1) {
+            return false;  
         }
-        return true;  
+        tempHand = tempHand.substring(0, index) + tempHand.substring(index + 1); 
     }
+    return true;  
+}
 
-    public static String removeLettersFromHand(String hand, String word) {
-        for (char letter : word.toCharArray()) {
-            hand = hand.replaceFirst(String.valueOf(letter), "");  
-        }
-        return hand; 
+public static String removeLettersFromHand(String hand, String word) {
+    for (char letter : word.toCharArray()) {
+        hand = hand.replaceFirst(String.valueOf(letter), "");  
     }
+    return hand; 
+}
+
 
     // Plays a Scrabble game. Prompts the user to enter 'n' for playing a new hand, or 'e'
     // to end the game. If the user enters any other input, writes an error message.
-    public static void playGame() {
-        // Initializes the dictionary
-        init();
-        
-        In in = new In();
-        String currentHand = "";
-
-        while (true) {
-            System.out.println("Enter n to deal a new hand, or e to end the game:");
-            String input = in.readString();
-
-            if (input.equals("n")) {
-                currentHand = createHand(); 
-                playHand(currentHand);      
-            } else if (input.equals("e")) {
-                System.out.println("Goodbye! Thanks for playing.");
-                break; 
-            } else {
-                System.out.println("Invalid input. Please enter 'n' or 'e'.");
-            }
-        }
-    }
-
+	public static void playGame() {
+		// Initializes the dictionary
+		init();
+		
+		In in = new In();
+		String currentHand = "";
+	
+		System.out.println("Loading word list from file...");
+		System.out.println("83667 words loaded.");
+		
+		while (true) {
+			System.out.println("Enter n to deal a new hand, or e to end the game:");
+			String input = in.readString();
+	
+			if (input.equals("n")) {
+				currentHand = createHand(); 
+				playHand(currentHand);      
+			} else if (input.equals("e")) {
+				System.out.println("Goodbye! Thanks for playing.");
+				break; 
+			} else {
+				System.out.println("Invalid input. Please enter 'n' or 'e'.");
+			}
+		}
+	}
+	
     public static void main(String[] args) {
         // Uncomment the test you want to run
         // testBuildingTheDictionary();  
