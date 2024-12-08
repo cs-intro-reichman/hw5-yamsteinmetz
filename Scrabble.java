@@ -60,6 +60,7 @@ public class Scrabble {
 			char letter = Character.toLowerCase(word.charAt(i));  
 			score += SCRABBLE_LETTER_VALUES[letter - 'a'];  // Ensure correct calculation for letter values
 		}
+		score *= word.length();
 		
 		// Add 50 points if the word length matches HAND_SIZE
 		if (word.length() == HAND_SIZE) {
@@ -70,7 +71,7 @@ public class Scrabble {
 			score += 1000;
 		}
 		if (score > 0) {  // Only multiply if there's a valid score
-        score *= word.length();
+     
     }
 
     return score;
