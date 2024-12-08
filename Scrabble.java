@@ -1,3 +1,5 @@
+import java.util.HashSet;
+
 public class Scrabble {
 
     // Dictionary file for this Scrabble game
@@ -105,6 +107,9 @@ public class Scrabble {
             return;
         }
 
+        // Use a set to track played words
+        HashSet<String> playedWords = new HashSet<>();
+
         while (hand.length() > 0) {
             System.out.println("Current Hand: " + hand);
             System.out.println("Enter a word, or '.' to finish playing this hand:");
@@ -115,8 +120,15 @@ public class Scrabble {
             }
 
             if (isWordInDictionary(input) && canFormWordFromHand(hand, input)) {
+                if (playedWords.contains(input)) {
+                    System.out.println("This word has already been played. Try again.");
+                    continue;
+                }
+
                 int wordScore = wordScore(input);
                 score += wordScore;
+                playedWords.add(input);
+
                 System.out.println(input + " earned " + wordScore + " points. Total score: " + score + " points");
 
                 hand = removeLettersFromHand(hand, input);
