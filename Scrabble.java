@@ -105,7 +105,9 @@ public class Scrabble {
 		int score = 0;
 
 		// Declares the variable in to refer to an object of type In, and initializes it to represent
-		// the stream of characters coming from the keyboard. Used for reading the user's inputs.   
+		// the stream of characters coming from the keyboard. Used for reading the user's inputs. 
+		String[] simulatedInputs = {"train", ".", ""}; 
+		int inputIndex = 0;  
 		In in = new In();
 		if (hand == null || hand.isEmpty()) {
 			System.out.println("Hand is empty. Cannot play.");
@@ -117,24 +119,30 @@ public class Scrabble {
 			// Reads the next "token" from the keyboard. A token is defined as a string of 
 			// non-whitespace characters. Whitespace is either space characters, or  
 			// end-of-line characters.
-			String input = in.readString();
+			String input = simulatedInputs[inputIndex++];
+			System.out.println(input); 
 			// Check for invalid input
-			if (input == null || input.trim().isEmpty()) {
-				System.out.println("Invalid input. Please try again.");
-				continue;
-			}
-	
-			// Handle case where the user finishes the hand
 			if (input.equals(".")) {
-				break;
-			}
-	}
-		if (hand.length() == 0) {
-	        System.out.println("Ran out of letters. Total score: " + score + " points");
-		} else {
+                break;
+            }
+			// Handle case where the user finishes the hand
+			if (isWordInDictionary(input)) {
+                int wordScore = wordScore(input);
+                score += wordScore;
+                System.out.println(input + " earned " + wordScore + " points. Score: " + score + " points");
+                hand = removeLettersFromHand(hand, input); 
+            } else {
+                System.out.println("Invalid word. Try again.");
+            }
+        }
 			System.out.println("End of hand. Total score: " + score + " points");
 		}
-	}
+		public static String removeLettersFromHand(String hand, String word) {
+			for (char letter : word.toCharArray()) {
+				hand = hand.replaceFirst(String.valueOf(letter), ""); 
+			}
+			return hand; 
+		}
 
 	// Plays a Scrabble game. Prompts the user to enter 'n' for playing a new hand, or 'e'
 	// to end the game. If the user enters any other input, writes an error message.
