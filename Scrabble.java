@@ -70,6 +70,7 @@ public class Scrabble {
 		if (word.indexOf("runi") != -1) { // Changed to indexOf for better check
 			score += 1000;  
 		}
+		score *= word.length();
 	
 		return score;
 	}
