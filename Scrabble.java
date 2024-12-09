@@ -121,11 +121,11 @@ public static void playHand(String hand) {
         return;
     }
 
-    while (hand.length() > 0) {
+    while (!hand.isEmpty()) {
         System.out.println("Current Hand: " + formatHand(hand));
         System.out.println("Enter a word, or '.' to finish playing this hand:");
     
-        String input = "train"; 
+        String input = "train"; // Example input for testing, replace with scanner in real implementation.
 
         if (input.equals(".")) {
             break; 
@@ -163,6 +163,7 @@ public static void playHand(String hand) {
 
     System.out.println("Test passed: true"); 
 }
+
 public static String formatHand(String hand) {
     return hand.replace("", " ").trim(); 
 }
@@ -185,6 +186,7 @@ public static String removeLettersFromHand(String hand, String word) {
     }
     return hand; 
 }
+
 
 public static void playGame() {
     init();
