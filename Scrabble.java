@@ -106,84 +106,10 @@ public class Scrabble {
 // 2. The user gets the Scrabble points of the entered word.
 // 3. The user is prompted to enter another word, or '.' to end the hand.
 
-// public static void playHand(String hand) {
-//     int score = 0;
-//     String[] playedWords = new String[100];
-//     int playedWordsCount = 0;
-
-//     if (NUM_OF_WORDS == 0) Scrabble.init();
-
-//     if (hand == null || hand.isEmpty()) {
-//         System.out.println("Hand is empty. Cannot play.");
-//         return;
-//     }
-
-//     In in = new In();
-
-//     while (!hand.isEmpty()) {
-//         System.out.println("Current Hand: " + formatHand(hand));
-//         System.out.println("Enter a word, or '.' to finish playing this hand:");
-//         String input = in.readString();
-
-//         if (input.equals(".")) {
-//             break;
-//         }
-
-//         if (isWordInDictionary(input) && canFormWordFromHand(hand, input)) {
-//             boolean alreadyPlayed = false;
-
-//             for (int i = 0; i < playedWordsCount; i++) {
-//                 if (playedWords[i].equals(input)) {
-//                     alreadyPlayed = true;
-//                     break;
-//                 }
-//             }
-
-//             if (alreadyPlayed) {
-//                 System.out.println("This word has already been played. Try again.");
-//                 continue;
-//             }
-
-//             playedWords[playedWordsCount++] = input;
-
-//             int wordScore = wordScore(input);
-//             score += wordScore;
-//             System.out.println(input + " earned " + wordScore + " points. Score: " + score + " points");
-
-//             hand = removeLettersFromHand(hand, input);
-//         } else {
-//             System.out.println("Invalid word. Try again.");
-//         }
-//     }
-
-//     System.out.println("End of hand. Total score: " + score + " points");
-// }
-
-// public static String formatHand(String hand) {
-//     return hand.replace("", " ").trim();
-// }
-
-// public static boolean canFormWordFromHand(String hand, String word) {
-//     String tempHand = hand;
-//     for (char letter : word.toCharArray()) {
-//         int index = tempHand.indexOf(letter);
-//         if (index == -1) {
-//             return false;
-//         }
-//         tempHand = tempHand.substring(0, index) + tempHand.substring(index + 1);
-//     }
-//     return true;
-// }
-
-// public static String removeLettersFromHand(String hand, String word) {
-//     for (char letter : word.toCharArray()) {
-//         hand = hand.replaceFirst(String.valueOf(letter), "");
-//     }
-//     return hand;
-// }
 public static void playHand(String hand) {
     int score = 0;
-    HashSet<String> playedWords = new HashSet<>();
+    String[] playedWords = new String[100];
+    int playedWordsCount = 0;
 
     if (NUM_OF_WORDS == 0) Scrabble.init();
 
@@ -204,12 +130,21 @@ public static void playHand(String hand) {
         }
 
         if (isWordInDictionary(input) && canFormWordFromHand(hand, input)) {
-            if (playedWords.contains(input)) {
+            boolean alreadyPlayed = false;
+
+            for (int i = 0; i < playedWordsCount; i++) {
+                if (playedWords[i].equals(input)) {
+                    alreadyPlayed = true;
+                    break;
+                }
+            }
+
+            if (alreadyPlayed) {
                 System.out.println("This word has already been played. Try again.");
                 continue;
             }
 
-            playedWords.add(input);
+            playedWords[playedWordsCount++] = input;
 
             int wordScore = wordScore(input);
             score += wordScore;
@@ -224,13 +159,29 @@ public static void playHand(String hand) {
     System.out.println("End of hand. Total score: " + score + " points");
 }
 
+public static String formatHand(String hand) {
+    return hand.replace("", " ").trim();
+}
+
+public static boolean canFormWordFromHand(String hand, String word) {
+    String tempHand = hand;
+    for (char letter : word.toCharArray()) {
+        int index = tempHand.indexOf(letter);
+        if (index == -1) {
+            return false;
+        }
+        tempHand = tempHand.substring(0, index) + tempHand.substring(index + 1);
+    }
+    return true;
+}
+
 public static String removeLettersFromHand(String hand, String word) {
     for (char letter : word.toCharArray()) {
-        hand = hand.replaceFirst(Character.toString(letter), "");
+        hand = hand.replaceFirst(String.valueOf(letter), "");
     }
     return hand;
 }
-}
+
 // Plays a full game of Scrabble
 public static void playGame() {
     init();
