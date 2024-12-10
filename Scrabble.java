@@ -148,7 +148,8 @@ public static void playHand(String hand) {
 
             int wordScore = wordScore(input);
             score += wordScore;
-            System.out.println(input + " earned " + wordScore + " points. Score: " + score + " points");
+            System.out.println(input + " earned " + wordScore + " points. Score: " + score + " points"); 
+            System.out.println();
 
             hand = removeLettersFromHand(hand, input);
         } else {
@@ -195,7 +196,6 @@ public static void playGame() {
             String currentHand = createHand();
             playHand(currentHand);
         } else if (input.equals("e")) {
-            System.out.println("Goodbye! Thanks for playing.");
             break;
         } else {
             System.out.println("Invalid input. Please enter 'n' or 'e'.");
@@ -210,7 +210,7 @@ public static void playGame() {
         // testScrabbleScore();    
         // testCreateHands();  
         // testPlayHands();
-        // playGame();
+        playGame();
     }
 
     public static void testBuildingTheDictionary() {
